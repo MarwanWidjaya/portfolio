@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marwan — Web Developer</title>
+<meta name="description" content="Marwan — Web Developer. Membangun website modern, cepat, dan memukau.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050508;
+  --bg2:#0a0a12;
+  --ink:#f2ede4;
+  --dim:#8a8a96;
+  --line:rgba(242,237,228,.12);
+  --accent:#7dd3fc;
+  --accent2:#c084fc;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent);color:#050508}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ===== STARFIELD ===== */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+#nebula{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 45% at 15% 20%, rgba(124,58,237,.10), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 85% 75%, rgba(56,189,248,.08), transparent 60%),
+    radial-gradient(ellipse 40% 35% at 70% 15%, rgba(192,132,252,.06), transparent 60%);
+}
+
+/* ===== INTRO ===== */
+#intro{position:fixed;inset:0;z-index:100;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
+  transition:opacity .9s ease, visibility .9s;}
+#intro.gone{opacity:0;visibility:hidden}
+#intro .bignum{font-size:clamp(5rem,18vw,11rem);font-weight:700;line-height:1;letter-spacing:-.04em;
+  background:linear-gradient(180deg,#fff,#555);-webkit-background-clip:text;background-clip:text;color:transparent}
+#intro .epoch{font-size:.72rem;letter-spacing:.35em;color:var(--dim)}
+#intro .bar{width:min(320px,60vw);height:2px;background:rgba(255,255,255,.08);overflow:hidden;border-radius:2px}
+#intro .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
+
+/* ===== HEADER ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem clamp(1rem,4vw,2.5rem);
+  background:linear-gradient(180deg,rgba(5,5,8,.85),transparent);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.logo{font-weight:700;letter-spacing:.18em;font-size:.85rem}
+.logo span{color:var(--dim);font-weight:400}
+nav{display:flex;gap:clamp(.8rem,3vw,2rem)}
+nav a{color:var(--dim);text-decoration:none;font-size:.75rem;letter-spacing:.12em;transition:color .25s}
+nav a b{color:var(--accent);font-weight:400;margin-right:.3em}
+nav a:hover{color:var(--ink)}
+.hright{display:flex;align-items:center;gap:1rem;font-size:.72rem;color:var(--dim)}
+#clock{letter-spacing:.08em}
+#soundBtn{background:none;border:1px solid var(--line);color:var(--dim);border-radius:20px;
+  padding:.35rem .8rem;font-size:.68rem;letter-spacing:.1em;cursor:pointer;transition:.25s;font-family:inherit}
+#soundBtn:hover{color:var(--ink);border-color:var(--ink)}
+@media(max-width:640px){nav{display:none}}
+
+/* ===== LAYOUT ===== */
+main{position:relative;z-index:1}
+section{padding:clamp(4rem,10vh,7rem) clamp(1.2rem,6vw,5rem);max-width:1200px;margin:0 auto}
+.kicker{font-size:.72rem;letter-spacing:.35em;color:var(--accent);margin-bottom:1.2rem}
+h2{font-size:clamp(2rem,6vw,3.6rem);font-weight:600;letter-spacing:-.02em;line-height:1.05;margin-bottom:1rem}
+.lead{color:var(--dim);max-width:56ch;line-height:1.7;font-size:clamp(.95rem,2.4vw,1.08rem)}
+
+/* ===== HERO ===== */
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;position:relative}
+#hero .epoch{font-size:.7rem;letter-spacing:.3em;color:var(--dim);margin-bottom:1.5rem}
+#hero h1{font-size:clamp(3.2rem,13vw,9rem);font-weight:700;line-height:.95;letter-spacing:-.04em;margin-bottom:1.2rem}
+#hero h1 .grad{background:linear-gradient(100deg,var(--accent),var(--accent2) 60%,#f0abfc);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+#hero .tagline{font-size:clamp(1rem,3vw,1.35rem);color:var(--dim);max-width:34ch;line-height:1.6;margin-bottom:2.2rem}
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:.9rem 1.8rem;border-radius:100px;
+  text-decoration:none;font-size:.9rem;letter-spacing:.04em;transition:transform .25s, box-shadow .25s, background .25s;
+  border:1px solid var(--line)}
+.btn-solid{background:var(--ink);color:#050508;border-color:var(--ink);font-weight:600}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(125,211,252,.25)}
+.btn-ghost{color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.socials{display:flex;gap:1.4rem;margin-top:2.4rem}
+.socials a{color:var(--dim);text-decoration:none;font-size:.8rem;letter-spacing:.12em;transition:color .25s}
+.socials a:hover{color:var(--accent)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-size:.68rem;letter-spacing:.3em;color:var(--dim);animation:float 2.6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(-50%,0);opacity:.5}50%{transform:translate(-50%,10px);opacity:1}}
+
+/* ===== WORKS ===== */
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem}
+.sec-head .count{font-size:.72rem;letter-spacing:.25em;color:var(--dim)}
+.work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1.4rem}
+.card{border:1px solid var(--line);border-radius:18px;padding:1.8rem;background:rgba(255,255,255,.015);
+  transition:transform .35s cubic-bezier(.2,.7,.3,1.2), border-color .3s, background .3s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .35s;pointer-events:none;
+  background:radial-gradient(420px 200px at var(--mx,50%) var(--my,0%), rgba(125,211,252,.09), transparent 65%)}
+.card:hover{transform:translateY(-6px);border-color:rgba(125,211,252,.35)}
+.card:hover::before{opacity:1}
+.card .room{font-size:.68rem;letter-spacing:.3em;color:var(--accent);margin-bottom:.9rem}
+.card h3{font-size:1.5rem;margin-bottom:.5rem;letter-spacing:-.01em}
+.card .stack{font-size:.72rem;color:var(--dim);letter-spacing:.06em;margin-bottom:1rem}
+.card p{color:var(--dim);font-size:.92rem;line-height:1.65;margin-bottom:1.4rem}
+.card .links{display:flex;gap:1.2rem}
+.card .links a{color:var(--ink);font-size:.8rem;letter-spacing:.08em;text-decoration:none;
+  border-bottom:1px solid var(--accent);padding-bottom:2px;transition:.25s}
+.card .links a:hover{color:var(--accent)}
+
+/* ===== ABOUT ===== */
+#about .grid{display:grid;grid-template-columns:1fr;gap:2.5rem;margin-top:2rem}
+@media(min-width:860px){#about .grid{grid-template-columns:1.1fr .9fr}}
+.cap{border-top:1px solid var(--line);padding:1.1rem 0;display:flex;gap:1.2rem;align-items:baseline}
+.cap .n{font-size:.72rem;color:var(--accent);min-width:2.2rem}
+.cap .t{font-size:1.02rem}
+.cap .d{color:var(--dim);font-size:.88rem;margin-top:.25rem}
+.badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
+.badge{font-size:.75rem;letter-spacing:.06em;border:1px solid var(--line);border-radius:100px;
+  padding:.45rem 1rem;color:var(--dim);transition:.25s}
+.badge:hover{color:var(--ink);border-color:var(--accent)}
+.fact{margin-bottom:1.6rem}
+.fact .k{font-size:.68rem;letter-spacing:.28em;color:var(--dim);margin-bottom:.4rem}
+.fact .v{font-size:1.05rem;line-height:1.6}
+
+/* ===== EXPERIENCE ===== */
+.xp{border-top:1px solid var(--line);padding:1.8rem 0;display:grid;gap:.6rem}
+@media(min-width:720px){.xp{grid-template-columns:220px 1fr;gap:2rem}}
+.xp .when{font-size:.78rem;color:var(--dim);letter-spacing:.06em}
+.xp h3{font-size:1.25rem;margin-bottom:.3rem}
+.xp .org{color:var(--accent);font-size:.9rem;margin-bottom:.7rem}
+.xp ul{list-style:none;display:grid;gap:.45rem}
+.xp li{color:var(--dim);font-size:.92rem;line-height:1.6;padding-left:1.2rem;position:relative}
+.xp li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
+
+/* ===== CONTACT ===== */
+#contact{text-align:center;padding-bottom:5rem}
+#contact h2{font-size:clamp(2.4rem,8vw,4.6rem)}
+.mail{font-size:clamp(1.1rem,4vw,1.7rem);color:var(--ink);text-decoration:none;
+  border-bottom:2px solid var(--accent);padding-bottom:4px;transition:.25s;display:inline-block;margin:1.6rem 0 2.4rem}
+.mail:hover{color:var(--accent)}
+.c-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
+.c-links a{color:var(--dim);text-decoration:none;font-size:.85rem;letter-spacing:.14em;transition:color .25s}
+.c-links a:hover{color:var(--ink)}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--line);
+  padding:1.6rem clamp(1.2rem,6vw,5rem);display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:.8rem;font-size:.72rem;color:var(--dim);letter-spacing:.08em;max-width:1200px;margin:0 auto}
+#toTop{background:none;border:1px solid var(--line);color:var(--dim);border-radius:100px;
+  padding:.5rem 1.1rem;cursor:pointer;font-family:inherit;font-size:.72rem;letter-spacing:.1em;transition:.25s}
+#toTop:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ===== REVEAL ===== */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}#intro{display:none}}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div id="nebula"></div>
+
+<div id="intro" aria-hidden="true">
+  <div class="bignum mono" id="introNum">001</div>
+  <div class="epoch mono">SYSTEM BOOT · <span id="introPct">0</span>%</div>
+  <div class="bar"><i id="introBar"></i></div>
+</div>
+
+<header>
+  <div class="logo">MARWAN<span>.DEV</span></div>
+  <nav class="mono">
+    <a href="#works"><b>01</b>Works</a>
+    <a href="#about"><b>02</b>About</a>
+    <a href="#xp"><b>03</b>Journey</a>
+    <a href="#contact"><b>04</b>Contact</a>
+  </nav>
+  <div class="hright mono">
+    <span id="clock">--:--</span>
+    <button id="soundBtn" title="Suara latar">SOUND OFF</button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="epoch mono rv">TASIKMALAYA, ID · <span id="heroDate"></span></div>
+    <h1 class="rv">MARWAN<br><span class="grad">BUILDS FOR<br>THE WEB.</span></h1>
+    <p class="tagline rv">Web developer. Gue bikin website yang cepat, rapi, dan bikin pengunjung betah — dari landing page sampai toko online.</p>
+    <div class="cta-row rv">
+      <a class="btn btn-solid" href="#contact">Hubungi Gue →</a>
+      <a class="btn btn-ghost" href="#works">Lihat Karya</a>
+    </div>
+    <div class="socials mono rv">
+      <a href="https://marwanwidjaya.github.io/magerweb/" target="_blank" rel="noopener">MAGERSITE ↗</a>
+      <a href="https://github.com/marwanwidjaya" target="_blank" rel="noopener">GITHUB ↗</a>
+      <a href="https://x.com/mawidjaya_157" target="_blank" rel="noopener">X ↗</a>
+    </div>
+    <div class="scroll-hint mono">SCROLL ↓</div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="sec-head rv">
+      <div>
+        <div class="kicker mono">01 · SELECTED WORK</div>
+        <h2>Inside the<br>workshop.</h2>
+      </div>
+      <div class="count mono">PROJECTS 04</div>
+    </div>
+    <div class="work-grid">
+      <article class="card rv">
+        <div class="room mono">ROOM 001</div>
+        <h3>MagerWeb</h3>
+        <div class="stack mono">HTML · CSS · JS · GITHUB PAGES</div>
+        <p>Jasa pembuatan website — landing page premium berbahasa Indonesia. Basic Rp250rb, Standard Rp500rb, Premium Rp1jt. Live dan nerima order.</p>
+        <div class="links mono">
+          <a href="https://marwanwidjaya.github.io/magerweb/" target="_blank" rel="noopener">LIVE ↗</a>
+        </div>
+      </article>
+      <article class="card rv">
+        <div class="room mono">ROOM 002</div>
+        <h3>Dapur Manis</h3>
+        <div class="stack mono">HTML · CSS · JS · MOBILE-FIRST</div>
+        <p>Demo toko kue online — mobile-first, katalog manis, tombol order via WhatsApp. Contoh konsep project buat klien UMKM.</p>
+        <div class="links mono">
+          <a href="https://marwanwidjaya.github.io/magerweb/" target="_blank" rel="noopener">LIVE ↗</a>
+        </div>
+      </article>
+      <article class="card rv">
+        <div class="room mono">ROOM 003</div>
+        <h3>Undangan Nikah Online</h3>
+        <div class="stack mono">HTML · CSS · JS</div>
+        <p>Undangan digital interaktif — countdown, RSVP via WhatsApp, amplop digital, galeri foto, musik latar. Mulai Rp150rb.</p>
+        <div class="links mono">
+          <a href="https://marwanwidjaya.github.io/magerweb/" target="_blank" rel="noopener">LIVE ↗</a>
+        </div>
+      </article>
+      <article class="card rv">
+        <div class="room mono">ROOM 004</div>
+        <h3>Bug Bounty: Finding #1623</h3>
+        <div class="stack mono">SOLIDITY · FOUNDRY · DEFI</div>
+        <p>Temuan kerentanan smart contract di kontes audit Cantina (Revert Finance v4lend) — missing caller check di flashloan callback. PoC Foundry lolos.</p>
+        <div class="links mono">
+          <a href="https://cantina.xyz" target="_blank" rel="noopener">CANTINA ↗</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="kicker mono rv">02 · PROFILE</div>
+    <h2 class="rv">Tentang gue.</h2>
+    <p class="lead rv">Gue Marwan — web developer dari Tasikmalaya. Fokus gue simpel: website yang <b style="color:var(--ink)">cepat dibuka</b>, <b style="color:var(--ink)">enak dilihat di HP</b>, dan <b style="color:var(--ink)">gampang dipakai</b>. Nggak pake teori ribet — hasil nyata yang ngomong.</p>
+    <div class="grid">
+      <div class="rv">
+        <div style="margin-top:1rem">
+          <div class="cap"><span class="n mono">01</span><div><div class="t">Web Development</div><div class="d">Landing page, company profile, toko online</div></div></div>
+          <div class="cap"><span class="n mono">02</span><div><div class="t">Mobile-First Design</div><div class="d">Rapi di HP dulu, baru desktop</div></div></div>
+          <div class="cap"><span class="n mono">03</span><div><div class="t">Performance</div><div class="d">Ringan, cepat loading, tanpa bloat</div></div></div>
+          <div class="cap"><span class="n mono">04</span><div><div class="t">Smart Contract Audit</div><div class="d">Solidity security review & PoC</div></div></div>
+        </div>
+        <div class="badges mono">
+          <span class="badge">HTML</span><span class="badge">CSS</span><span class="badge">JavaScript</span>
+          <span class="badge">Solidity</span><span class="badge">Foundry</span><span class="badge">Python</span>
+          <span class="badge">Git</span><span class="badge">GitHub Pages</span>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="fact"><div class="k mono">LOKASI</div><div class="v">Kawalu, Tasikmalaya — Indonesia</div></div>
+        <div class="fact"><div class="k mono">FOKUS</div><div class="v">Website UMKM · Landing Page · Web3 Security</div></div>
+        <div class="fact"><div class="k mono">STATUS</div><div class="v">Open for freelance 🟢</div></div>
+        <div class="fact"><div class="k mono">PRINSIP</div><div class="v" style="font-style:italic">"Jangan cuma teori, harus dengan hasil yang nyata."</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="xp">
+    <div class="kicker mono rv">03 · JOURNEY</div>
+    <h2 class="rv">Perjalanan.</h2>
+    <div style="margin-top:2.5rem">
+      <div class="xp rv">
+        <div class="when mono">2026 — SEKARANG</div>
+        <div>
+          <h3>Web Developer & Security Researcher</h3>
+          <div class="org mono">FREELANCE</div>
+          <ul>
+            <li>Membangun MagerWeb — jasa pembuatan website untuk UMKM</li>
+            <li>Bug bounty hunter: Cantina, Immunefi, HackerOne</li>
+            <li>Smart contract audit dengan Foundry & Slither</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp rv">
+        <div class="when mono">2025 — 2026</div>
+        <div>
+          <h3>Belajar Ngoding Otodidak</h3>
+          <div class="org mono">SELF-TAUGHT</div>
+          <ul>
+            <li>HTML, CSS, JavaScript dari nol sampai bisa jualan jasa</li>
+            <li>Belajar Solidity & keamanan smart contract</li>
+            <li>Bangun portfolio dan demo project</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp rv">
+        <div class="when mono">SEBELUMNYA</div>
+        <div>
+          <h3>Kurir Paket</h3>
+          <div class="org mono">PT KANSA DAYA</div>
+          <ul>
+            <li>Kerja lapangan — disiplin, tahan banting, kenal banyak orang</li>
+            <li>Modal nekat pindah jalur ke dunia digital</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="kicker mono rv">04 · CONTACT</div>
+    <h2 class="rv">Let's connect.</h2>
+    <p class="lead rv" style="margin:0 auto;text-align:center">Punya project website? Atau sekadar mau kenalan? Gas ngobrol.</p>
+    <br>
+    <a class="mail mono rv" href="https://wa.me/6285723803537" target="_blank" rel="noopener">💬 Chat WhatsApp →</a>
+    <div class="c-links mono rv">
+      <a href="https://github.com/marwanwidjaya" target="_blank" rel="noopener">GITHUB ↗</a>
+      <a href="https://x.com/mawidjaya_157" target="_blank" rel="noopener">X ↗</a>
+      <a href="https://marwanwidjaya.github.io/magerweb/" target="_blank" rel="noopener">MAGERSITE ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer class="mono">
+  <span>© 2026 MARWAN · BUILT WITH VANILLA JS & CANVAS</span>
+  <button id="toTop">BACK TO TOP ↑</button>
+</footer>
+
+<script>
+/* ============ STARFIELD ============ */
+(function(){
+  const c=document.getElementById('stars'),x=c.getContext('2d');
+  let W,H,stars=[],mx=0,my=0,tmx=0,tmy=0;
+  const N = window.innerWidth<640?140:280;
+  function rs(){W=c.width=innerWidth;H=c.height=innerHeight}
+  rs();addEventListener('resize',rs);
+  for(let i=0;i<N;i++)stars.push({x:Math.random(),y:Math.random(),z:Math.random()*.8+.2,r:Math.random()*1.4+.3,tw:Math.random()*Math.PI*2});
+  addEventListener('mousemove',e=>{tmx=(e.clientX/innerWidth-.5);tmy=(e.clientY/innerHeight-.5)});
+  let sy=0;
+  addEventListener('scroll',()=>{sy=scrollY},{passive:true});
+  (function loop(t){
+    x.clearRect(0,0,W,H);
+    mx+=(tmx-mx)*.04; my+=(tmy-my)*.04;
+    for(const s of stars){
+      const px=((s.x - mx*s.z*.06 - (sy*.00004*s.z))%1+1)%1*W;
+      const py=((s.y - my*s.z*.06)%1+1)%1*H;
+      const a=.25+.75*Math.abs(Math.sin(t*.001+s.tw))*s.z;
+      x.globalAlpha=a;
+      x.fillStyle='#fff';
+      x.beginPath();x.arc(px,py,s.r*s.z,0,7);x.fill();
+    }
+    x.globalAlpha=1;
+    requestAnimationFrame(loop);
+  })(0);
+})();
+
+/* ============ INTRO ============ */
+(function(){
+  const intro=document.getElementById('intro'),
+        num=document.getElementById('introNum'),
+        bar=document.getElementById('introBar'),
+        pct=document.getElementById('introPct');
+  let p=0;
+  const iv=setInterval(()=>{
+    p=Math.min(100,p+Math.random()*16+6);
+    bar.style.width=p+'%';pct.textContent=Math.floor(p);
+    num.textContent=String(Math.floor(p/100*999)+1).padStart(3,'0');
+    if(p>=100){clearInterval(iv);
+      setTimeout(()=>{intro.classList.add('gone');
+        document.querySelectorAll('#hero .rv').forEach((el,i)=>
+          setTimeout(()=>el.classList.add('in'),150+i*120));
+      },350);}
+  },140);
+  setTimeout(()=>intro.classList.add('gone'),4000); // failsafe
+})();
+
+/* ============ CLOCK ============ */
+(function(){
+  const el=document.getElementById('clock');
+  function tick(){
+    const d=new Date();
+    el.textContent=String(d.getHours()).padStart(2,'0')+':'+
+                   String(d.getMinutes()).padStart(2,'0')+' WIB';
+  }
+  tick();setInterval(tick,15000);
+  const hd=document.getElementById('heroDate');
+  if(hd)hd.textContent=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+})();
+
+/* ============ REVEAL ON SCROLL ============ */
+(function(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+  }),{threshold:.12});
+  document.querySelectorAll('section:not(#hero) .rv, footer.rv').forEach(el=>io.observe(el));
+})();
+
+/* ============ CARD SPOTLIGHT ============ */
+document.querySelectorAll('.card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    card.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+});
+
+/* ============ SOUND TOGGLE (ambient) ============ */
+(function(){
+  const btn=document.getElementById('soundBtn');
+  let ctx=null,on=false;
+  btn.addEventListener('click',()=>{
+    if(!on){
+      try{
+        ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.type='sine';o.frequency.value=55;
+        const o2=ctx.createOscillator(),g2=ctx.createGain();
+        o2.type='sine';o2.frequency.value=82.5;
+        g.gain.value=.04;g2.gain.value=.025;
+        o.connect(g).connect(ctx.destination);
+        o2.connect(g2).connect(ctx.destination);
+        o.start();o2.start();
+        ctx._nodes=[o,o2];
+        on=true;btn.textContent='SOUND ON';btn.style.color='var(--accent)';
+      }catch(e){btn.textContent='NO AUDIO'}
+    }else{
+      if(ctx&&ctx._nodes)ctx._nodes.forEach(n=>{try{n.stop()}catch(e){}});
+      on=false;btn.textContent='SOUND OFF';btn.style.color='';
+    }
+  });
+})();
+
+/* ============ TO TOP ============ */
+document.getElementById('toTop').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
